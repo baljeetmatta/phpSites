@@ -1,0 +1,105 @@
+<html>
+
+<body>
+    <button id="createBtn">Create Record</button>
+    <div id="creatediv" style="display: none;">
+        Name:<input type="text" id="name" /><br />
+        Class:<input type="text" id="class" /><br />
+        Mobile:<input type="text" id="mobile" /><br />
+        Registration No:<input type="text" id="regno" /><br />
+        <input type="button" id="submit" value="Add Student" />
+    </div>
+    <table id="response">
+
+        <tr>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Class</th>
+        </tr>
+
+
+    </table>
+</body>
+
+
+<script>
+
+    const responseDiv = document.querySelector("#response");
+    const createBtn = document.querySelector("#createBtn");
+    const creatediv = document.querySelector("#createDiv");
+    const submit = document.querySelector("#submit");
+    const name = document.querySelector("#name");
+    const sclass = document.querySelector("#class");
+    const mobile = document.querySelector("#mobile");
+    const regno = document.querySelector("#regno");
+
+    submit.addEventListener("click",()=>{
+
+        //console.log(called);
+
+         fetch("http://localhost/phpsites/ajax/save.php",{
+            method:"POST",
+           // body:JSON.stringify({name:name.value,class:sclass.value,mobile:mobile.value,regno:regno.value}),
+            body:new URLSearchParams({
+                name:name.value,
+                class:sclass.value,
+                mobile:mobile.value,
+                regno:regno.value
+            }),
+
+            
+         })//First Promise
+        .then((response) => {
+            return response.text();//second Promised
+        }).then((response) => {
+            //alert(response);
+            //responseDiv.innerHTML=response;
+            console.log(response);
+
+            
+
+
+    })
+});
+
+
+
+    createBtn.addEventListener("click", () => {
+        creatediv.style.display = "block";
+
+
+    })
+    fetch("http://localhost/phpsites/ajax/all.php")//First Promise
+        .then((response) => {
+            return response.json();//second Promised
+        }).then((response) => {
+            //alert(response);
+            //responseDiv.innerHTML=response;
+            // console.log(response);
+
+            response.forEach(element => {
+                addDom(element);
+                console.log(element);
+
+            });
+
+
+
+        })
+
+    const addDom = (element) => {
+        const tr = document.createElement("tr");
+
+        const td = document.createElement("td");
+        td.innerHTML = element.Name;
+
+        tr.appendChild(td);
+
+        response.appendChild(tr);
+
+
+    }
+
+</script>
+
+</html>

@@ -1,7 +1,8 @@
 <html>
 
 <body>
-
+    SSR - SERVER SIDE SIDE
+    CSR
     <?php
     if (!isset($_REQUEST['submit'])) { ?>
 

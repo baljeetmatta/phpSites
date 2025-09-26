@@ -25,55 +25,59 @@ READ ALL records from a database table.
 
 -->
 <html>
+
 <head>
     <style>
-        .flex-class{
+        .flex-class {
             display: flex;
-            column-gap:4px;
-        }
-        .flex-class div{
-            background-color:blue;
-            color:white;
-            padding:10px;
-        }
-        .active{
-            background-color: greenyellow!important;
+            column-gap: 4px;
         }
 
-        div a{
-            text-decoration: none;
-            color:white;
+        .flex-class div {
+            background-color: blue;
+            color: white;
+            padding: 10px;
         }
-        </style>
+
+        .active {
+            background-color: greenyellow !important;
+        }
+
+        div a {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
 </head>
+
 <body>
 
-<?php
- $search="";
-    if(isset($_GET["search"]))
-        $search=$_GET["search"];
+    <?php
+    $search = "";
+    if (isset($_GET["search"]))
+        $search = $_GET["search"];
 
 
-?>
+    ?>
 
     <form method="get">
-    <input type="text" placeholder="Search" name="search" value="<?php echo $search?>"/>
-    <button>Search</button>
-</form>
+        <input type="text" placeholder="Search" name="search" value="<?php echo $search ?>" />
+        <button>Search</button>
+    </form>
 
 
     <?php
-    $pageNum=1;
+    $pageNum = 1;
 
-    if(!isset($_GET["page"]))
-        $pageNum=1;
+    if (!isset($_GET["page"]))
+        $pageNum = 1;
     else
-        $pageNum=$_GET["page"];
-   
-        
+        $pageNum = $_GET["page"];
 
-    $limit=5;
-    $offset=($pageNum-1)*$limit;
+
+
+    $limit = 5;
+    $offset = ($pageNum - 1) * $limit;
 
     $conn = mysqli_connect("localhost", "root", "", "projectdb") or die("Connection Failed");
     $sql = "SELECT * FROM Students where name like '%$search%' order by StudentId limit $offset,$limit";
@@ -87,7 +91,7 @@ READ ALL records from a database table.
 
     ?>
 
-<a href="addStudent.php">Add new Student</a>
+        <a href="addStudent.php">Add new Student</a>
 
         <table>
             <thead>
@@ -113,14 +117,14 @@ READ ALL records from a database table.
                     }
                     */
                 while ($row = mysqli_fetch_assoc($result)) {
-                    $id=$row['StudentId'];
+                    $id = $row['StudentId'];
                 ?>
                     <tr>
                         <td><?php echo $row['Name']; ?></td>
                         <td><?php echo $row['StudentClass']; ?></td>
                         <td><?php echo $row['Mobile']; ?></td>
                         <td><?php echo $row['Registration']; ?></td>
-                        <td><a href="Student.php?id=<?php echo $id?>">View</a></td>
+                        <td><a href="Student.php?id=<?php echo $id ?>">View</a></td>
 
                     </tr>
 
@@ -133,32 +137,30 @@ READ ALL records from a database table.
             </tbody>
         </table>
         <?php
-         $sql = "SELECT count(*) as count FROM Students where name like '%$search%'";
-    $result = mysqli_query($conn, $sql) or die("Query Unsuccessful");
-   //echo mysqli_num_rows($result);
-   $row =mysqli_fetch_assoc($result);
-   $total_records=$row['count'];
-  
-   $total_pages=ceil( $total_records/$limit);
-   //echo $total_pages;
-   $active="";
+        $sql = "SELECT count(*) as count FROM Students where name like '%$search%'";
+        $result = mysqli_query($conn, $sql) or die("Query Unsuccessful");
+        //echo mysqli_num_rows($result);
+        $row = mysqli_fetch_assoc($result);
+        $total_records = $row['count'];
 
-   echo "<div class='flex-class'>";
-   for($i=1;$i<=$total_pages;$i++)
-   {
-    if($i==$_GET["page"])
-        $active="active";
-    else
-        $active="";
+        $total_pages = ceil($total_records / $limit);
+        //echo $total_pages;
+        $active = "";
 
-    echo "<div class='$active'><a href='all.php?page=$i&search=$search'>$i</a></div>";
+        echo "<div class='flex-class'>";
+        for ($i = 1; $i <= $total_pages; $i++) {
+            if ($i == $_GET["page"])
+                $active = "active";
+            else
+                $active = "";
 
-   }
-   echo "</div>"
+            echo "<div class='$active'><a href='all.php?page=$i&search=$search'>$i</a></div>";
+        }
+        echo "</div>"
 
 
 
-    
+
         ?>
     <?php
     } else
@@ -168,12 +170,12 @@ READ ALL records from a database table.
     ?>
 
 
-1. Login/Signup - database users 
-2. Login ->Session-> ID,title,isresolved,dated,userid
-        1. Existing tasks (Session)
-        2. Add a users
-        3. DELETE
-        4. Edit - isresolved
+    1. Login/Signup - database users
+    2. Login ->Session-> ID,title,isresolved,dated,userid
+    1. Existing tasks (Session)
+    2. Add a users
+    3. DELETE
+    4. Edit - isresolved
 
 </body>
 
